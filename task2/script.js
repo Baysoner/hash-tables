@@ -1,10 +1,10 @@
+// script.js
 class HashTable {
     constructor(size = 10000, method = 'linear') {
         this.size = size;
         this.table = new Array(size).fill(null);
         this.deleted = new Array(size).fill(false);
         this.method = method;
-        this.currentClusterLength = 0;
     }
 
     async _hash(key) {
@@ -32,19 +32,24 @@ class HashTable {
     }
 
     _randomHash() {
-        return Math.floor(Math.random() * this.size); // Use this.size instead of 10000
+        return Math.floor(Math.random() * 10000);
     }
 
     async _secondHash(key) {
-        if (typeof key === 'number') {
-            return (key % (this.size - 1)) + 1;
+        if (this.method === 'cryptographic') {
+            const hashValue = await this._hash(key);
+            return (hashValue % (this.size - 1)) + 1;
         } else {
-            let hash = 0;
-            for (let i = 0; i < key.length; i++) {
-                hash = (hash << 5) + key.charCodeAt(i);
-                hash = hash & hash;
+            if (typeof key === 'number') {
+                return (key % (this.size - 1)) + 1;
+            } else {
+                let hash = 0;
+                for (let i = 0; i < key.length; i++) {
+                    hash = (hash << 5) + key.charCodeAt(i);
+                    hash = hash & hash;
+                }
+                return Math.abs(hash) % (this.size - 1) + 1;
             }
-            return Math.abs(hash) % (this.size - 1) + 1;
         }
     }
 
@@ -107,6 +112,7 @@ class HashTable {
         return null;
     }
 
+
     async delete(key, value) {
         let i = 0;
         while (i < this.size) {
@@ -148,16 +154,23 @@ class HashTable {
         });
     }
 
-    getLongestClusterLength(max, i) {
-        let maxClusterLength = max;
+    getLongestClusterLength() {
+        let maxClusterLength = 0;
+        let currentClusterLength = 0;
 
-        if (this.table[i] !== null && !this.deleted[i]) {
-            this.currentClusterLength++;
-        } else {
-            if (this.currentClusterLength > maxClusterLength) {
-                maxClusterLength = this.currentClusterLength;
+        for (let i = 0; i < this.size; i++) {
+            if (this.table[i] !== null && !this.deleted[i]) {
+                currentClusterLength++;
+            } else {
+                if (currentClusterLength > maxClusterLength) {
+                    maxClusterLength = currentClusterLength;
+                }
+                currentClusterLength = 0;
             }
-            this.currentClusterLength = 0;
+        }
+
+        if (currentClusterLength > maxClusterLength) {
+            maxClusterLength = currentClusterLength;
         }
 
         return maxClusterLength;
@@ -193,21 +206,19 @@ async function remove() {
 document.getElementById('hashMethod').addEventListener('change', updateHashTable);
 updateHashTable();
 
+
 async function generateAndInsertElements() {
     const analysisTableBody = document.querySelector('#analysisTable tbody');
     analysisTableBody.innerHTML = '';
     const methods = ['linear', 'quadratic', 'double', 'cryptographic', 'random'];
     
     for (const method of methods) {
-        let longestClusterLength = 0;
-        let currentClusterLength = 0; // Use local variable
         const ht = new HashTable(10000, method);
         const startTime = performance.now();
-
-        for (let i = 0; i < 10000; i++) {
-            longestClusterLength = ht.getLongestClusterLength(longestClusterLength, i);
-            const key = generateRandomString(0, 100000); // Генерация случайного ключа
-            const value = generateRandomString(0, 100000); // Генерация случайного значения
+        
+        for (let i = 0; i < 8000; i++) {
+            const key = `key${i}`;
+            const value = `value${i}`;
             try {
                 await ht.insertTask2(key, value);
             } catch (error) {
@@ -217,6 +228,7 @@ async function generateAndInsertElements() {
         }
         
         const endTime = performance.now();
+        const longestClusterLength = ht.getLongestClusterLength();
         
         const row = document.createElement('tr');
         const methodCell = document.createElement('td');
@@ -233,8 +245,4 @@ async function generateAndInsertElements() {
 
         analysisTableBody.appendChild(row);
     }
-}
-
-function generateRandomString(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
