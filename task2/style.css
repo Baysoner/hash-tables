@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
@@ -47,25 +47,33 @@ button.form-button:hover {
     background-color: #0056b3;
 }
 
-#hashTableContainer {
+#hashTableContainer, #analysisTableContainer {
     margin-top: 20px;
 }
 
-#hashTable {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-#hashTable th, #hashTable td {
+th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
-#hashTable th {
+th {
     background-color: #007bff;
     color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
 }
 
 #searchResultContainer {
