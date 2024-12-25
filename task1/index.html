@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Анализ Хеш-таблицы</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Анализ Хеш-таблицы</h1>
+
+    <div class="container">
+      <h2>Операции</h2>
+      <label for="key">Ключ:</label>
+      <input type="text" id="key" placeholder="Введите ключ" />
+      <label for="value">Значение:</label>
+      <input type="text" id="value" placeholder="Введите значение" />
+      <br />
+      <label for="hashMethod">Метод хеширования:</label>
+      <select id="hashMethod">
+        <option value="hashDivision">Деление</option>
+        <option value="hashMultiplication">Умножение</option>
+        <option value="hashBitPi">BitPi</option>
+        <option value="hashAddition">Сложение</option>
+        <option value="hashXOR">XOR</option>
+      </select>
+      <br />
+      <button id="insertButton">Вставить</button>
+      <button id="searchButton">Найти</button>
+      <button id="deleteButton">Удалить</button>
+      <button id="showTableButton">Показать Таблицу</button>
+    </div>
+
+    <div class="container">
+      <h2>Результаты</h2>
+      <div id="output" style="font-weight: bold"></div>
+      <div id="tableContainer">
+        <div id="tableOutput"></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>Анализ Производительности</h2>
+      <button id="generateDataButton">
+        Сгенерировать 100,000 данных и проанализировать
+      </button>
+      <div id="analysisOutput"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

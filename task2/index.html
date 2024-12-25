@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Table Example</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hash Table Example</h1>
+        <div class="form-group">
+            <label for="hashMethod">Hash Method: </label>
+            <select id="hashMethod">
+                <option value="linear">Linear Probing</option>
+                <option value="quadratic">Quadratic Probing</option>
+                <option value="double">Double Hashing</option>
+                <option value="cryptographic">Cryptographic Hashing (SHA-256)</option>
+                <option value="random">Random Hashing</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" id="key" placeholder="Key">
+            <input type="text" id="value" placeholder="Value">
+            <button class="form-button" onclick="insert()">Insert</button>
+        </div>
+        <div class="form-group">
+            <input type="text" id="searchKey" placeholder="Search Key">
+            <button class="form-button" onclick="search()">Search</button>
+        </div>
+        <div class="form-group">
+            <input type="text" id="deleteKey" placeholder="Delete Key">
+            <input type="text" id="deleteValue" placeholder="Delete Value">
+            <button class="form-button" onclick="remove()">Delete</button>
+        </div>
+        <div id="searchResultContainer" class="form-group">
+            <label for="searchResult">Search Result: </label>
+            <span id="searchResult"></span>
+        </div>
+        <div>
+            <button class="form-button" onclick="generateAndInsertElements()">Generate and Analyze 10000 Elements</button>
+        </div>
+        <div id="hashTableContainer">
+            <h2>Hash Table</h2>
+            <table id="hashTable">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="analysisTableContainer">
+            <h2>Hash Function Analysis</h2>
+            <table id="analysisTable">
+                <thead>
+                    <tr>
+                        <th>Hash Method</th>
+                        <th>Longest Cluster Length</th>
+                        <th>Time Taken (s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
